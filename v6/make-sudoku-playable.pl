@@ -5,6 +5,16 @@ my $sudoku = '000000075000080094000500600010000200000900057006003040001000023080
 $sudoku = $sudoku.trans('0' => ' '); # trans replaces each occurence of the pairs key with pairs value and returns
                                 # the resulting string.
 
-for 0..8 -> $line-number {
-    say substr $sudoku, $line-number * 9, 9;
+#for 0..8 -> $line-number {
+#    say substr $sudoku, $line-number * 9, 9;
+#}
+
+sub chunks(Str $s, Int $chars) {
+    gather loop (my $idx = 0; $idx < $s.chars; $idx += $chars) {
+        take substr($s, $idx, $chars)
+    }
+}
+
+for chunks($sudoku, 9) -> $line {
+    say chunks($line, 3).join('|');
 }
